@@ -31,11 +31,7 @@ var app = express();
 // Serve the Parse API on the /parse URL prefix
 var mountPath = process.env.PARSE_MOUNT || '/parse';
 app.use(mountPath, api);
-
 app.use(morgan('dev'));
-
-app.locals.mongoose = require('mongoose');
-app.locals.mongoose.connect('mongodb://localhost:27017/dev');
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
@@ -61,7 +57,7 @@ app.use(function(req, res, next) {
 app.use(swagger.init(app, {
   apiVersion: '1.0',
   swaggerVersion: '1.0',
-  basePath: 'http://localhost:3000',
+  basePath: 'http://localhost:1337',
   swaggerURL: '/swagger',
   swaggerJSON: '/api-docs.json',
   swaggerUI: './public/swagger/',
@@ -71,7 +67,7 @@ app.use(swagger.init(app, {
 app.use(express.static('public'));
 
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 1337;
 app.listen(port, function() {
   console.log('parse-server-example running on port ' + port + '.');
 });
