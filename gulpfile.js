@@ -1,12 +1,26 @@
-// Include gulp
-var gulp = require('gulp');
- // Include plugins
-var concat = require('gulp-concat');
- // Concatenate JS Files
-gulp.task('scripts', function() {
-    return gulp.src('src/js/*.js')
-      .pipe(concat('main.js'))
-      .pipe(gulp.dest('build/js'));
+var gulp = require('gulp'),
+  nodemon = require('gulp-nodemon'),
+  plumber = require('gulp-plumber'),
+  livereload = require('gulp-livereload');
+
+
+gulp.task('develop', function () {
+  livereload.listen();
+  nodemon({
+    script: 'index.js',
+    ext: 'js html',
+    stdout: false
+  }).on('readable', function () {
+    this.stdout.on('data', function (chunk) {
+      if(/^Express server listening on port/.test(chunk)){
+        livereload.changed(__dirname);
+      }
+    });
+    this.stdout.pipe(process.stdout);
+    this.stderr.pipe(process.stderr);
+  });
 });
- // Default Task
-gulp.task('default', ['scripts']);
+
+gulp.task('default', [
+  'develop'
+]);

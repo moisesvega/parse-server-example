@@ -14,10 +14,7 @@ ENV DATABASE_URI mongodb://localhost:27017/dev
 
 EXPOSE 1337
 
-# Uncomment if you want to access cloud code outside of your container
-# A main.js file must be present, if not Parse will not start
-
 VOLUME /parse
 WORKDIR /parse
 
-CMD npm install && npm start
+CMD npm install && gulp

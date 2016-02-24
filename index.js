@@ -7,7 +7,8 @@ var express = require('express')
   , Parse = require('./helpers/helper.js').Parse
   , statusRoute = require('./routes/status.js')
   , publishSdlBatchRoute = require('./routes/publish-sdl-batch.js')
-  , swagger = require('swagger-express');
+  , swagger = require('swagger-express')
+  , gutil = require('./helpers/helper.js').gutil;
 
 var databaseUri = process.env.DATABASE_URI || process.env.MONGOLAB_URI;
 
@@ -69,5 +70,6 @@ app.use(express.static('public'));
 
 var port = process.env.PORT || 1337;
 app.listen(port, function() {
-  console.log('parse-server-example running on port ' + port + '.');
+  gutil.log(gutil.colors.green('[server]'),  'running on port ' ,
+            gutil.colors.cyan(port));
 });
